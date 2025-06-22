@@ -6,7 +6,7 @@
 
 Welcome to the most comprehensive and beginner-friendly course on Azure AI Models! This course will take you from complete beginner to building production-ready AI applications using Microsoft's cutting-edge AI services.
 
-![Azure AI Models](https://github.com/DrHazemAli/Azure-AI-Models/blob/main/images/azure_models.jpg)
+![Azure AI Models](https://github.com/DrHazemAli/Azure-AI-Models/blob/main/Images/azure_models.jpg)
 
 
 This course is designed to be the most comprehensive and beginner-friendly resource for learning Azure AI Models. Whether you're a complete beginner or an experienced developer, you'll find valuable insights and practical skills to build amazing AI applications.
