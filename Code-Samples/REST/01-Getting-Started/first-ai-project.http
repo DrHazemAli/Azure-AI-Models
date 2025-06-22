@@ -1,0 +1,327 @@
+###
+# Your First AI Project - REST API Examples
+# =========================================
+#
+# This file contains REST API examples for Azure AI Language services:
+# - Language Detection
+# - Sentiment Analysis  
+# - Key Phrase Extraction
+#
+# Prerequisites:
+# 1. Azure AI Language service created
+# 2. Replace {{endpoint}} with your service endpoint
+# 3. Replace {{api-key}} with your API key
+#
+# Usage:
+# - Use VS Code with REST Client extension
+# - Or copy these requests to Postman/Insomnia
+# - Or use curl commands from terminal
+
+### Variables (replace with your actual values)
+@endpoint = https://your-resource.cognitiveservices.azure.com
+@api-key = your-api-key-here
+@api-version = 2022-05-01
+
+###
+# Test 1: Language Detection
+# Detects the language of the input text
+
+POST {{endpoint}}/language/:analyze-text?api-version={{api-version}}
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{api-key}}
+
+{
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": "I love using Azure AI services! They make building intelligent applications so easy."
+            },
+            {
+                "id": "2", 
+                "text": "¡Hola! Me encanta la inteligencia artificial y sus aplicaciones."
+            },
+            {
+                "id": "3",
+                "text": "こんにちは！AIサービスは素晴らしいです。"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "LanguageDetectionTask",
+            "parameters": {
+                "loggingOptOut": false
+            }
+        }
+    ]
+}
+
+###
+# Test 2: Sentiment Analysis
+# Analyzes the sentiment (positive, negative, neutral) of text
+
+POST {{endpoint}}/language/:analyze-text?api-version={{api-version}}
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{api-key}}
+
+{
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": "I absolutely love this product! It's amazing and works perfectly."
+            },
+            {
+                "id": "2",
+                "text": "This is terrible. I'm very disappointed with the service."
+            },
+            {
+                "id": "3",
+                "text": "The product is okay. Nothing special but it works as expected."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "SentimentAnalysisTask",
+            "parameters": {
+                "loggingOptOut": false
+            }
+        }
+    ]
+}
+
+###
+# Test 3: Key Phrase Extraction
+# Extracts key phrases and important information from text
+
+POST {{endpoint}}/language/:analyze-text?api-version={{api-version}}
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{api-key}}
+
+{
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": "Microsoft Azure provides comprehensive cloud computing services including artificial intelligence, machine learning, and data analytics for businesses of all sizes."
+            },
+            {
+                "id": "2",
+                "text": "The new restaurant downtown serves excellent Italian food with fresh ingredients and has a beautiful atmosphere."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "KeyPhraseExtractionTask",
+            "parameters": {
+                "loggingOptOut": false
+            }
+        }
+    ]
+}
+
+###
+# Test 4: Combined Analysis
+# Performs multiple analyses in a single request
+
+POST {{endpoint}}/language/:analyze-text?api-version={{api-version}}
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{api-key}}
+
+{
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": "Azure AI services are incredibly powerful and make it easy to add intelligence to applications. I'm really impressed with the capabilities!"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "LanguageDetectionTask",
+            "parameters": {
+                "loggingOptOut": false
+            }
+        },
+        {
+            "kind": "SentimentAnalysisTask", 
+            "parameters": {
+                "loggingOptOut": false
+            }
+        },
+        {
+            "kind": "KeyPhraseExtractionTask",
+            "parameters": {
+                "loggingOptOut": false
+            }
+        }
+    ]
+}
+
+###
+# Test 5: Multilingual Text Analysis
+# Demonstrates analysis of text in different languages
+
+POST {{endpoint}}/language/:analyze-text?api-version={{api-version}}
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{api-key}}
+
+{
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "english",
+                "text": "Azure AI is transforming how we build intelligent applications."
+            },
+            {
+                "id": "spanish",
+                "text": "Me encanta trabajar con servicios de inteligencia artificial de Azure."
+            },
+            {
+                "id": "french", 
+                "text": "Les services d'IA Azure sont vraiment impressionnants et faciles à utiliser."
+            },
+            {
+                "id": "german",
+                "text": "Azure KI-Dienste bieten erstaunliche Möglichkeiten für Entwickler."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "LanguageDetectionTask"
+        },
+        {
+            "kind": "SentimentAnalysisTask"
+        },
+        {
+            "kind": "KeyPhraseExtractionTask"
+        }
+    ]
+}
+
+###
+# Test 6: Error Handling Example
+# This request will fail to demonstrate error handling
+
+POST {{endpoint}}/language/:analyze-text?api-version={{api-version}}
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: invalid-key
+
+{
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": "This request should fail due to invalid API key."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "SentimentAnalysisTask"
+        }
+    ]
+}
+
+###
+# CURL Examples
+# ==============
+# If you prefer using curl from the command line:
+
+# Language Detection
+# curl -X POST "https://your-resource.cognitiveservices.azure.com/language/:analyze-text?api-version=2022-05-01" \
+#   -H "Content-Type: application/json" \
+#   -H "Ocp-Apim-Subscription-Key: your-api-key" \
+#   -d '{
+#     "analysisInput": {
+#       "documents": [{"id": "1", "text": "Hello, how are you today?"}]
+#     },
+#     "tasks": [{"kind": "LanguageDetectionTask"}]
+#   }'
+
+# Sentiment Analysis  
+# curl -X POST "https://your-resource.cognitiveservices.azure.com/language/:analyze-text?api-version=2022-05-01" \
+#   -H "Content-Type: application/json" \
+#   -H "Ocp-Apim-Subscription-Key: your-api-key" \
+#   -d '{
+#     "analysisInput": {
+#       "documents": [{"id": "1", "text": "I love Azure AI services!"}]
+#     },
+#     "tasks": [{"kind": "SentimentAnalysisTask"}]
+#   }'
+
+# Key Phrase Extraction
+# curl -X POST "https://your-resource.cognitiveservices.azure.com/language/:analyze-text?api-version=2022-05-01" \
+#   -H "Content-Type: application/json" \
+#   -H "Ocp-Apim-Subscription-Key: your-api-key" \
+#   -d '{
+#     "analysisInput": {
+#       "documents": [{"id": "1", "text": "Microsoft Azure provides cloud computing services."}]
+#     },
+#     "tasks": [{"kind": "KeyPhraseExtractionTask"}]
+#   }'
+
+###
+# PowerShell Examples
+# ===================
+
+# $endpoint = "https://your-resource.cognitiveservices.azure.com"
+# $apiKey = "your-api-key"
+# $headers = @{ "Ocp-Apim-Subscription-Key" = $apiKey; "Content-Type" = "application/json" }
+# 
+# $body = @{
+#     analysisInput = @{
+#         documents = @(
+#             @{ id = "1"; text = "I love Azure AI!" }
+#         )
+#     }
+#     tasks = @(
+#         @{ kind = "SentimentAnalysisTask" }
+#     )
+# } | ConvertTo-Json -Depth 3
+# 
+# $response = Invoke-RestMethod -Uri "$endpoint/language/:analyze-text?api-version=2022-05-01" -Method POST -Headers $headers -Body $body
+# $response | ConvertTo-Json -Depth 5
+
+###
+# Expected Response Format
+# ========================
+# The API will return a response like this:
+
+# {
+#   "jobId": "12345678-1234-1234-1234-123456789abc",
+#   "lastUpdateDateTime": "2024-01-15T10:30:00Z",
+#   "createdDateTime": "2024-01-15T10:30:00Z", 
+#   "expirationDateTime": "2024-01-16T10:30:00Z",
+#   "status": "succeeded",
+#   "errors": [],
+#   "tasks": {
+#     "completed": 1,
+#     "failed": 0,
+#     "inProgress": 0,
+#     "total": 1,
+#     "items": [
+#       {
+#         "kind": "SentimentAnalysisResults",
+#         "results": {
+#           "documents": [
+#             {
+#               "id": "1",
+#               "sentiment": "positive",
+#               "confidenceScores": {
+#                 "positive": 0.89,
+#                 "neutral": 0.10,
+#                 "negative": 0.01
+#               }
+#             }
+#           ]
+#         }
+#       }
+#     ]
+#   }
+# } 

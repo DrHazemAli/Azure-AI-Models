@@ -1,0 +1,413 @@
+###
+# Azure OpenAI Chat Completions REST API Examples
+# ===============================================
+#
+# This file contains comprehensive examples for using Azure OpenAI Service's
+# Chat Completions API via REST. It includes both streaming and non-streaming
+# implementations with various configurations.
+#
+# Features demonstrated:
+# - Basic chat completions
+# - Streaming chat completions
+# - Multi-turn conversations
+# - System prompts and roles
+# - Parameter configuration
+# - Error handling examples
+#
+# Prerequisites:
+# - Azure OpenAI Service endpoint
+# - API key with appropriate permissions
+# - Deployed chat model (e.g., gpt-35-turbo, gpt-4)
+#
+# Setup:
+# 1. Replace {{endpoint}} with your Azure OpenAI endpoint
+# 2. Replace {{api-key}} with your API key
+# 3. Replace {{deployment-name}} with your model deployment name
+# 4. Update {{api-version}} if needed (current: 2024-10-21)
+
+### Variables (Update these with your values)
+@endpoint = YOUR_AZURE_OPENAI_ENDPOINT
+@api-key = YOUR_API_KEY
+@deployment-name = YOUR_DEPLOYMENT_NAME
+@api-version = 2024-10-21
+
+###
+# 1. Basic Non-Streaming Chat Completion
+# Simple single-turn conversation with default parameters
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant specializing in Azure AI services."
+        },
+        {
+            "role": "user",
+            "content": "What are the main benefits of using Azure OpenAI Service?"
+        }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 500
+}
+
+###
+# 2. Streaming Chat Completion
+# Same request but with streaming enabled for real-time response
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant specializing in Azure AI services."
+        },
+        {
+            "role": "user",
+            "content": "Explain how chat completions work in Azure OpenAI."
+        }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 800,
+    "stream": true
+}
+
+###
+# 3. Multi-Turn Conversation
+# Conversation with history to maintain context
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant specializing in Azure AI services. You provide accurate, practical information and maintain context throughout the conversation."
+        },
+        {
+            "role": "user",
+            "content": "What is Azure OpenAI Service?"
+        },
+        {
+            "role": "assistant",
+            "content": "Azure OpenAI Service is a cloud-based platform that provides access to OpenAI's powerful AI models through Azure's infrastructure. It offers enterprise-grade security, compliance, and regional availability while providing access to models like GPT-4, GPT-3.5, DALL-E, and Codex."
+        },
+        {
+            "role": "user",
+            "content": "How does it differ from OpenAI's direct API?"
+        }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 600
+}
+
+###
+# 4. Creative Writing Assistant
+# Higher temperature for more creative responses
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a creative writing assistant. Help users brainstorm ideas, improve their writing, and provide creative suggestions. Be imaginative and inspiring while maintaining helpfulness."
+        },
+        {
+            "role": "user",
+            "content": "Help me write the opening paragraph for a sci-fi story about AI assistants in the year 2050."
+        }
+    ],
+    "temperature": 1.2,
+    "max_tokens": 400,
+    "top_p": 0.9,
+    "frequency_penalty": 0.3,
+    "presence_penalty": 0.1
+}
+
+###
+# 5. Code Assistant
+# Lower temperature for more precise, factual responses
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a professional software developer and coding assistant. Provide accurate, well-commented code examples and explain programming concepts clearly. Always follow best practices and include error handling where appropriate."
+        },
+        {
+            "role": "user",
+            "content": "Show me how to make an HTTP request to Azure OpenAI using Python with proper error handling."
+        }
+    ],
+    "temperature": 0.2,
+    "max_tokens": 800,
+    "top_p": 0.8
+}
+
+###
+# 6. Customer Service Bot
+# Configured for helpful, professional customer service
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a professional customer service representative for a technology company. Be helpful, empathetic, and solution-focused. Always ask clarifying questions when needed and provide step-by-step guidance. Maintain a friendly but professional tone."
+        },
+        {
+            "role": "user",
+            "content": "I'm having trouble connecting to my Azure OpenAI service. The API calls are failing with authentication errors."
+        }
+    ],
+    "temperature": 0.5,
+    "max_tokens": 600,
+    "presence_penalty": 0.2
+}
+
+###
+# 7. Educational Tutor
+# Configured for teaching and explanation
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an expert tutor specializing in artificial intelligence and machine learning. Explain concepts clearly, use analogies when helpful, and adapt your explanations to the student's level of understanding. Always encourage questions and provide examples."
+        },
+        {
+            "role": "user",
+            "content": "I'm new to AI. Can you explain what 'temperature' means in the context of language models like GPT?"
+        }
+    ],
+    "temperature": 0.6,
+    "max_tokens": 700
+}
+
+###
+# 8. Streaming with Token Usage Tracking
+# Streaming request with usage information included
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant."
+        },
+        {
+            "role": "user",
+            "content": "Explain the benefits of streaming responses in chat applications."
+        }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 500,
+    "stream": true,
+    "stream_options": {
+        "include_usage": true
+    }
+}
+
+###
+# 9. JSON Response Format
+# Request structured JSON output
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant that provides information in structured JSON format when requested."
+        },
+        {
+            "role": "user",
+            "content": "List the top 3 Azure AI services with their key features in JSON format."
+        }
+    ],
+    "temperature": 0.3,
+    "max_tokens": 600,
+    "response_format": {
+        "type": "json_object"
+    }
+}
+
+###
+# 10. Long Conversation with Context Management
+# Simulating a longer conversation that might need context management
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an Azure AI consultant helping a client plan their AI implementation. Maintain context throughout the conversation and provide specific, actionable advice."
+        },
+        {
+            "role": "user",
+            "content": "We're a retail company looking to implement AI for customer service. What should we consider?"
+        },
+        {
+            "role": "assistant",
+            "content": "For a retail company implementing AI customer service, here are key considerations:\n\n1. **Use Cases**: Start with common inquiries like order status, product information, and basic troubleshooting\n2. **Integration**: Plan how the AI will integrate with your existing CRM and order management systems\n3. **Escalation**: Design clear paths for escalating complex issues to human agents\n4. **Training Data**: Prepare historical customer service data to train and fine-tune the model\n5. **Compliance**: Ensure the solution meets retail industry compliance requirements\n\nWhat specific aspects of customer service are you looking to improve first?"
+        },
+        {
+            "role": "user",
+            "content": "We get a lot of questions about product availability and shipping. How can AI help with that?"
+        },
+        {
+            "role": "assistant",
+            "content": "AI can significantly improve handling of product availability and shipping inquiries:\n\n**Product Availability:**\n- Real-time inventory integration to provide accurate stock information\n- Proactive notifications when out-of-stock items become available\n- Alternative product suggestions based on customer preferences\n- Store locator for in-stock items at nearby locations\n\n**Shipping Inquiries:**\n- Automated order tracking with real-time updates\n- Delivery estimate calculations based on location and shipping method\n- Proactive shipping delay notifications\n- Self-service address changes and delivery instructions\n\nWould you like me to elaborate on the technical implementation of any of these features?"
+        },
+        {
+            "role": "user",
+            "content": "Yes, how would we integrate real-time inventory data with the AI system?"
+        }
+    ],
+    "temperature": 0.6,
+    "max_tokens": 800
+}
+
+###
+# 11. Error Handling Example - Invalid Model
+# This will demonstrate error response format
+POST {{endpoint}}/openai/deployments/invalid-model/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "user",
+            "content": "This should fail due to invalid model name."
+        }
+    ]
+}
+
+###
+# 12. Parameter Experimentation
+# Testing different parameter combinations
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a creative storyteller."
+        },
+        {
+            "role": "user",
+            "content": "Tell me a short story about a robot learning to paint."
+        }
+    ],
+    "temperature": 0.9,
+    "max_tokens": 400,
+    "top_p": 0.95,
+    "frequency_penalty": 0.5,
+    "presence_penalty": 0.3,
+    "stop": ["\n\n", "The End"]
+}
+
+###
+# 13. Minimal Request
+# Simplest possible chat completion request
+POST {{endpoint}}/openai/deployments/{{deployment-name}}/chat/completions?api-version={{api-version}}
+Content-Type: application/json
+api-key: {{api-key}}
+
+{
+    "messages": [
+        {
+            "role": "user",
+            "content": "Hello!"
+        }
+    ]
+}
+
+###
+# 14. PowerShell Example
+# How to make the same request using PowerShell
+# 
+# $headers = @{
+#     'Content-Type' = 'application/json'
+#     'api-key' = 'YOUR_API_KEY'
+# }
+# 
+# $body = @{
+#     messages = @(
+#         @{
+#             role = "system"
+#             content = "You are a helpful assistant."
+#         },
+#         @{
+#             role = "user"
+#             content = "What is Azure OpenAI Service?"
+#         }
+#     )
+#     temperature = 0.7
+#     max_tokens = 500
+# } | ConvertTo-Json -Depth 3
+# 
+# $response = Invoke-RestMethod -Uri "YOUR_ENDPOINT/openai/deployments/YOUR_DEPLOYMENT/chat/completions?api-version=2024-10-21" -Method POST -Headers $headers -Body $body
+# Write-Output $response.choices[0].message.content
+
+###
+# 15. cURL Example
+# How to make the same request using cURL
+#
+# curl -X POST "YOUR_ENDPOINT/openai/deployments/YOUR_DEPLOYMENT/chat/completions?api-version=2024-10-21" \
+#   -H "Content-Type: application/json" \
+#   -H "api-key: YOUR_API_KEY" \
+#   -d '{
+#     "messages": [
+#       {
+#         "role": "system",
+#         "content": "You are a helpful assistant."
+#       },
+#       {
+#         "role": "user",
+#         "content": "What is Azure OpenAI Service?"
+#       }
+#     ],
+#     "temperature": 0.7,
+#     "max_tokens": 500
+#   }'
+
+###
+# Notes:
+# ------
+# 1. Always use HTTPS for production requests
+# 2. Store API keys securely (environment variables, Azure Key Vault)
+# 3. Implement proper error handling for rate limits and failures
+# 4. Monitor token usage to manage costs
+# 5. Use streaming for better user experience with long responses
+# 6. Implement conversation memory management for multi-turn chats
+# 7. Consider using system prompts to define AI behavior and personality
+# 8. Test different temperature values for your use case:
+#    - Low (0.0-0.3): Factual, consistent responses
+#    - Medium (0.4-0.8): Balanced creativity and consistency
+#    - High (0.9-2.0): Creative, varied responses
+# 9. Use response_format for structured outputs when needed
+# 10. Implement proper authentication and authorization for production use 

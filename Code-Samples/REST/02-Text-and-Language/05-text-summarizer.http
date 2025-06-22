@@ -1,0 +1,892 @@
+# Azure AI Language Text Summarizer - REST API Examples
+# Comprehensive collection of HTTP requests for text summarization
+
+# ============================================================================
+# SETUP AND CONFIGURATION
+# ============================================================================
+
+# Set your Azure AI Language service endpoint and API key
+@endpoint = {{AZURE_LANGUAGE_ENDPOINT}}
+@api_key = {{AZURE_LANGUAGE_KEY}}
+@api_version = 2023-04-01
+
+# Common headers
+@content_type = application/json
+@subscription_key = Ocp-Apim-Subscription-Key
+
+# ============================================================================
+# 1. EXTRACTIVE SUMMARIZATION
+# ============================================================================
+
+### 1.1 Basic Extractive Summarization
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "ExtractiveTextSummarization",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "The COVID-19 pandemic has fundamentally changed how we work, learn, and interact with each other. Remote work has become the norm for many organizations, leading to increased adoption of digital collaboration tools and cloud-based services. Educational institutions have shifted to online learning platforms, while healthcare systems have embraced telemedicine to provide safe patient care. The pandemic has also accelerated digital transformation across industries, with businesses investing heavily in automation and artificial intelligence to maintain operations during lockdowns. However, these changes have also highlighted the digital divide, as not everyone has equal access to technology and high-speed internet. As we move forward, it's clear that the lessons learned during the pandemic will continue to shape our future, with hybrid work models, digital-first approaches, and increased focus on resilience becoming permanent features of our society."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "ExtractiveSummarizationTask",
+            "parameters": {
+                "sentenceCount": 3,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+### 1.2 Extractive Summarization with Custom Sentence Count
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "ExtractiveTextSummarization_Custom",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Artificial Intelligence is revolutionizing healthcare by enabling more accurate diagnoses, personalized treatment plans, and efficient drug discovery. Machine learning algorithms can analyze medical images with precision that often exceeds human capabilities, helping radiologists detect early signs of cancer, fractures, and other conditions. Natural language processing is being used to extract insights from electronic health records, clinical notes, and medical literature. AI-powered chatbots and virtual assistants are improving patient engagement and providing 24/7 support for basic health queries. Predictive analytics helps healthcare providers identify patients at risk of developing certain conditions, enabling preventive care measures. However, the implementation of AI in healthcare also raises important questions about data privacy, algorithmic bias, and the need for regulatory oversight to ensure patient safety and ethical use of technology."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "ExtractiveTask",
+            "parameters": {
+                "sentenceCount": 5,
+                "sortBy": "Offset"
+            }
+        }
+    ]
+}
+
+### 1.3 Extractive Summarization - Multiple Documents
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "ExtractiveMultipleDocuments",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Climate change is one of the most pressing challenges of our time, requiring urgent action from governments, businesses, and individuals worldwide. Rising global temperatures are causing more frequent and severe weather events, including hurricanes, droughts, and flooding. The melting of polar ice caps is contributing to sea level rise, threatening coastal communities and ecosystems. To address these challenges, countries are transitioning to renewable energy sources, implementing carbon pricing mechanisms, and investing in green technologies."
+            },
+            {
+                "id": "2",
+                "language": "en",
+                "text": "The renewable energy sector has experienced unprecedented growth in recent years, driven by technological advances, falling costs, and supportive government policies. Solar and wind power have become increasingly competitive with fossil fuels, leading to massive investments in clean energy infrastructure. Energy storage technologies, particularly batteries, are solving the intermittency challenges associated with renewable sources. Smart grids are enabling more efficient distribution of clean energy, while electric vehicles are reducing transportation emissions."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "BatchExtractive",
+            "parameters": {
+                "sentenceCount": 2,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# 2. ABSTRACTIVE SUMMARIZATION
+# ============================================================================
+
+### 2.1 Basic Abstractive Summarization
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "AbstractiveTextSummarization",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "The future of work is being shaped by several key trends, including remote work, artificial intelligence, and the gig economy. Remote work, accelerated by the COVID-19 pandemic, has proven that many jobs can be performed effectively from anywhere, leading to increased flexibility and work-life balance for employees. However, it has also created challenges around collaboration, company culture, and employee wellbeing. Artificial intelligence is automating routine tasks while creating new opportunities for human workers to focus on creative and strategic activities. The gig economy continues to grow, offering flexibility but also raising concerns about job security and benefits. Companies are adapting by implementing hybrid work models, investing in employee development, and rethinking traditional employment structures to attract and retain talent in this evolving landscape."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "AbstractiveSummarizationTask",
+            "parameters": {
+                "sentenceCount": 3
+            }
+        }
+    ]
+}
+
+### 2.2 Abstractive Summarization - Short Summary
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "AbstractiveShortSummary",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Quantum computing represents a paradigm shift in computational power, promising to solve complex problems that are intractable for classical computers. Unlike traditional computers that use bits to represent information as 0s and 1s, quantum computers use quantum bits or qubits that can exist in multiple states simultaneously through superposition. This allows quantum computers to perform many calculations in parallel, potentially offering exponential speedups for certain types of problems. Key applications include cryptography, drug discovery, financial modeling, and optimization problems. However, quantum computers are still in their early stages, facing challenges such as quantum decoherence, error rates, and the need for extremely low temperatures to maintain quantum states. Major technology companies and research institutions are investing heavily in quantum research, with IBM, Google, and others making significant progress in building practical quantum systems."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "ShortAbstractive",
+            "parameters": {
+                "sentenceCount": 1
+            }
+        }
+    ]
+}
+
+### 2.3 Abstractive Summarization - Long Summary
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "AbstractiveLongSummary",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "The Internet of Things (IoT) is transforming industries by connecting everyday objects to the internet, enabling them to collect, share, and analyze data. In manufacturing, IoT sensors monitor equipment performance, predict maintenance needs, and optimize production processes. Smart cities use IoT devices to manage traffic flow, monitor air quality, and improve energy efficiency. Healthcare applications include wearable devices that track vital signs, smart pills that monitor medication adherence, and connected medical equipment that provides real-time patient data. Agriculture benefits from IoT through precision farming techniques that monitor soil conditions, weather patterns, and crop health. However, the proliferation of IoT devices also raises security concerns, as each connected device represents a potential entry point for cyberattacks. Privacy issues arise from the vast amount of personal data collected by these devices. Standardization challenges exist due to the diversity of IoT platforms and protocols. Despite these challenges, the IoT market continues to grow rapidly, driven by advances in wireless technology, edge computing, and artificial intelligence."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "LongAbstractive",
+            "parameters": {
+                "sentenceCount": 5
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# 3. CONVERSATION SUMMARIZATION
+# ============================================================================
+
+### 3.1 Basic Conversation Summarization
+POST {{endpoint}}/language/analyze-conversations/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "ConversationSummarization",
+    "analysisInput": {
+        "conversations": [
+            {
+                "conversationItems": [
+                    {
+                        "text": "Hello, I'm having trouble with my internet connection. It's been very slow for the past few days.",
+                        "id": "1",
+                        "role": "Customer",
+                        "participantId": "Customer_1"
+                    },
+                    {
+                        "text": "I'm sorry to hear about the slow internet. Let me help you troubleshoot this issue. Can you tell me what speed you're currently experiencing?",
+                        "id": "2",
+                        "role": "Agent",
+                        "participantId": "Agent_1"
+                    },
+                    {
+                        "text": "I'm getting about 5 Mbps download speed, but I'm paying for 100 Mbps.",
+                        "id": "3",
+                        "role": "Customer",
+                        "participantId": "Customer_1"
+                    },
+                    {
+                        "text": "That's definitely not acceptable. Let me check your connection remotely. I can see there might be an issue with your modem. Can you please unplug it for 30 seconds and plug it back in?",
+                        "id": "4",
+                        "role": "Agent",
+                        "participantId": "Agent_1"
+                    },
+                    {
+                        "text": "Okay, I've done that. Let me test the speed again... Wow, now I'm getting 95 Mbps! That fixed it. Thank you so much!",
+                        "id": "5",
+                        "role": "Customer",
+                        "participantId": "Customer_1"
+                    },
+                    {
+                        "text": "Excellent! The modem reset resolved the issue. If you experience slow speeds again, try this same troubleshooting step first. Is there anything else I can help you with today?",
+                        "id": "6",
+                        "role": "Agent",
+                        "participantId": "Agent_1"
+                    },
+                    {
+                        "text": "No, that's all. Thank you for your quick help!",
+                        "id": "7",
+                        "role": "Customer",
+                        "participantId": "Customer_1"
+                    }
+                ],
+                "modality": "text",
+                "id": "conversation1",
+                "language": "en"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "taskName": "ConversationSummary",
+            "kind": "ConversationalSummarizationTask",
+            "parameters": {
+                "summaryAspects": ["issue", "resolution", "recap"]
+            }
+        }
+    ]
+}
+
+### 3.2 Conversation Summarization - Sales Call
+POST {{endpoint}}/language/analyze-conversations/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "SalesCallSummarization",
+    "analysisInput": {
+        "conversations": [
+            {
+                "conversationItems": [
+                    {
+                        "text": "Hi, I'm interested in your cloud storage solutions for my small business. We currently have about 20 employees.",
+                        "id": "1",
+                        "role": "Customer",
+                        "participantId": "Prospect_1"
+                    },
+                    {
+                        "text": "Great! I'd be happy to help you find the right solution. What's your current storage situation, and what are your main requirements?",
+                        "id": "2",
+                        "role": "Agent",
+                        "participantId": "Sales_1"
+                    },
+                    {
+                        "text": "We're using a mix of external drives and basic cloud storage, but we need better collaboration features and security. We handle sensitive client data.",
+                        "id": "3",
+                        "role": "Customer",
+                        "participantId": "Prospect_1"
+                    },
+                    {
+                        "text": "Perfect. Our Business Pro plan would be ideal for you. It includes advanced security features, team collaboration tools, and compliance certifications. For 20 users, it would be $200 per month.",
+                        "id": "4",
+                        "role": "Agent",
+                        "participantId": "Sales_1"
+                    },
+                    {
+                        "text": "That sounds reasonable. What about data backup and recovery options?",
+                        "id": "5",
+                        "role": "Customer",
+                        "participantId": "Prospect_1"
+                    },
+                    {
+                        "text": "Automatic backups are included, with point-in-time recovery up to 90 days. We also offer extended backup retention for an additional fee.",
+                        "id": "6",
+                        "role": "Agent",
+                        "participantId": "Sales_1"
+                    },
+                    {
+                        "text": "Excellent. I'd like to proceed with a trial to test it with my team. How do we get started?",
+                        "id": "7",
+                        "role": "Customer",
+                        "participantId": "Prospect_1"
+                    },
+                    {
+                        "text": "I'll set up a 30-day free trial for you right now. You'll receive setup instructions via email within the hour. I'll also schedule a follow-up call next week to see how it's working for you.",
+                        "id": "8",
+                        "role": "Agent",
+                        "participantId": "Sales_1"
+                    }
+                ],
+                "modality": "text",
+                "id": "sales_call_1",
+                "language": "en"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "taskName": "SalesCallSummary",
+            "kind": "ConversationalSummarizationTask",
+            "parameters": {
+                "summaryAspects": ["issue", "resolution", "recap"]
+            }
+        }
+    ]
+}
+
+### 3.3 Conversation Summarization - Meeting Summary
+POST {{endpoint}}/language/analyze-conversations/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "MeetingSummarization",
+    "analysisInput": {
+        "conversations": [
+            {
+                "conversationItems": [
+                    {
+                        "text": "Good morning everyone. Let's start with the quarterly review. Sarah, can you give us an update on the marketing campaign performance?",
+                        "id": "1",
+                        "role": "Manager",
+                        "participantId": "Manager_1"
+                    },
+                    {
+                        "text": "Sure. Our Q3 campaign exceeded expectations with a 25% increase in leads compared to Q2. The social media component was particularly successful, generating 40% of our total leads.",
+                        "id": "2",
+                        "role": "Marketing",
+                        "participantId": "Sarah_1"
+                    },
+                    {
+                        "text": "That's excellent news. What about conversion rates, Mike?",
+                        "id": "3",
+                        "role": "Manager",
+                        "participantId": "Manager_1"
+                    },
+                    {
+                        "text": "Conversion rates are up 15% from last quarter. We've implemented new lead scoring and nurturing processes that are showing great results.",
+                        "id": "4",
+                        "role": "Sales",
+                        "participantId": "Mike_1"
+                    },
+                    {
+                        "text": "Fantastic. For Q4, we need to focus on the holiday season strategy. Sarah, can you prepare a proposal for increased social media spend?",
+                        "id": "5",
+                        "role": "Manager",
+                        "participantId": "Manager_1"
+                    },
+                    {
+                        "text": "Absolutely. I'll have a detailed proposal ready by Friday, including budget recommendations and expected ROI.",
+                        "id": "6",
+                        "role": "Marketing",
+                        "participantId": "Sarah_1"
+                    },
+                    {
+                        "text": "Perfect. Mike, please coordinate with Sarah on the sales enablement materials for the holiday campaign.",
+                        "id": "7",
+                        "role": "Manager",
+                        "participantId": "Manager_1"
+                    },
+                    {
+                        "text": "Will do. I'll schedule a meeting with Sarah this week to align on messaging and target segments.",
+                        "id": "8",
+                        "role": "Sales",
+                        "participantId": "Mike_1"
+                    }
+                ],
+                "modality": "text",
+                "id": "quarterly_meeting",
+                "language": "en"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "taskName": "MeetingSummary",
+            "kind": "ConversationalSummarizationTask",
+            "parameters": {
+                "summaryAspects": ["recap", "chapterTitle", "narrative"]
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# 4. COMBINED ANALYSIS (Multiple Tasks)
+# ============================================================================
+
+### 4.1 Combined Extractive and Abstractive Summarization
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "CombinedSummarization",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Blockchain technology has emerged as a revolutionary force across multiple industries, offering unprecedented levels of transparency, security, and decentralization. Originally developed as the underlying technology for Bitcoin, blockchain has found applications in supply chain management, healthcare, finance, and digital identity verification. The technology works by creating an immutable ledger of transactions that is distributed across a network of computers, making it nearly impossible to alter or hack. In supply chain management, blockchain enables companies to track products from origin to consumer, ensuring authenticity and reducing fraud. Healthcare organizations are using blockchain to secure patient records and enable secure sharing of medical data between providers. Financial institutions are exploring blockchain for cross-border payments, trade finance, and regulatory compliance. However, challenges remain, including scalability issues, energy consumption concerns, and regulatory uncertainty. Despite these challenges, investment in blockchain technology continues to grow, with governments and enterprises recognizing its potential to transform business processes and create new economic models."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "ExtractiveTask",
+            "parameters": {
+                "sentenceCount": 3,
+                "sortBy": "Rank"
+            }
+        },
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "AbstractiveTask",
+            "parameters": {
+                "sentenceCount": 2
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# 5. BUSINESS SCENARIOS
+# ============================================================================
+
+### 5.1 News Article Summarization
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "NewsArticleSummarization",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "In a groundbreaking development for renewable energy, scientists at MIT have announced a major breakthrough in solar panel efficiency that could revolutionize the industry. The new perovskite-silicon tandem solar cells achieved a record-breaking 35% efficiency rate in laboratory tests, significantly higher than the current industry standard of 20-22%. This advancement could make solar energy more cost-effective and accelerate the transition to clean energy worldwide. The research team, led by Dr. Elena Rodriguez, spent five years developing the new technology, which combines traditional silicon cells with a layer of perovskite material that captures different wavelengths of light. The breakthrough addresses one of the main limitations of current solar technology - the inability to efficiently convert all wavelengths of sunlight into electricity. Commercial applications are expected within the next three to five years, pending further testing and manufacturing scale-up. Major solar manufacturers have already expressed interest in licensing the technology, with some planning pilot production runs as early as next year. Environmental groups have hailed the development as a game-changer for combating climate change, while industry analysts predict it could reduce solar installation costs by up to 30% once widely adopted."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "NewsHeadline",
+            "parameters": {
+                "sentenceCount": 1
+            }
+        },
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "KeyPoints",
+            "parameters": {
+                "sentenceCount": 4,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+### 5.2 Research Paper Summarization
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "ResearchPaperSummarization",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "This study investigates the effectiveness of machine learning algorithms in predicting stock market volatility using a comprehensive dataset spanning 20 years of market data from major global exchanges. We employed three different approaches: Long Short-Term Memory (LSTM) networks, Support Vector Machines (SVM), and Random Forest algorithms to analyze historical price movements, trading volumes, and macroeconomic indicators. The research methodology involved preprocessing 2.5 million data points, feature engineering to identify relevant predictors, and cross-validation techniques to ensure model robustness. Our findings indicate that LSTM networks achieved the highest accuracy rate of 78.3% in predicting short-term volatility (1-5 days), while Random Forest models performed best for medium-term predictions (1-4 weeks) with an accuracy of 72.1%. SVM models showed consistent performance across all time horizons but with lower overall accuracy. The study also revealed that incorporating sentiment analysis from financial news and social media data improved prediction accuracy by 12-15% across all models. Limitations include the model's sensitivity to black swan events and the challenge of incorporating real-time geopolitical factors. These results have significant implications for algorithmic trading strategies, risk management, and portfolio optimization. Future research should explore the integration of alternative data sources and the development of ensemble methods that combine multiple algorithms for improved prediction accuracy."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "AbstractSummary",
+            "parameters": {
+                "sentenceCount": 3
+            }
+        },
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "KeyFindings",
+            "parameters": {
+                "sentenceCount": 5,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+### 5.3 Legal Document Summarization
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "LegalDocumentSummarization",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "This Software License Agreement (\"Agreement\") is entered into between TechCorp Solutions, Inc. (\"Licensor\") and the end user (\"Licensee\") for the use of the CloudManage Pro software application. The Licensor grants the Licensee a non-exclusive, non-transferable license to use the software for internal business purposes only. The license term is perpetual, subject to compliance with the terms and conditions outlined herein. The Licensee may install the software on up to five (5) devices within their organization but may not redistribute, modify, or reverse engineer the software. The software includes technical support for the first year, after which support services are available for an additional annual fee of $500. The Licensor retains all intellectual property rights to the software and any related documentation. The Licensee agrees to use the software in compliance with all applicable laws and regulations and will not use it for any illegal or unauthorized purposes. Limitation of liability: The Licensor's total liability for any damages shall not exceed the amount paid by the Licensee for the software license. The Agreement may be terminated by either party with 30 days written notice, and upon termination, the Licensee must cease all use of the software and destroy all copies. This Agreement is governed by the laws of the State of California, and any disputes will be resolved through binding arbitration. Updates and upgrades to the software will be provided at the Licensor's discretion and may require additional licensing fees."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "KeyTerms",
+            "parameters": {
+                "sentenceCount": 6,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# 6. ERROR HANDLING AND EDGE CASES
+# ============================================================================
+
+### 6.1 Empty Text Handling
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "EmptyTextTest",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": ""
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "EmptyTextTask",
+            "parameters": {
+                "sentenceCount": 3,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+### 6.2 Very Short Text Handling
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "ShortTextTest",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "AI is transforming healthcare."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "ShortTextTask",
+            "parameters": {
+                "sentenceCount": 3,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+### 6.3 Maximum Sentence Count Test
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "MaxSentenceCountTest",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Artificial intelligence is revolutionizing healthcare by enabling more accurate diagnoses and personalized treatment plans. Machine learning algorithms can analyze medical images with precision that often exceeds human capabilities. Natural language processing is being used to extract insights from electronic health records and clinical notes. AI-powered chatbots are improving patient engagement and providing 24/7 support for basic health queries. Predictive analytics helps healthcare providers identify patients at risk of developing certain conditions. However, the implementation of AI in healthcare also raises important questions about data privacy and algorithmic bias. Regulatory oversight is needed to ensure patient safety and ethical use of technology. The future of healthcare will likely see even greater integration of AI technologies. Healthcare professionals will need to adapt to working alongside intelligent systems. Patients will benefit from more personalized and efficient care delivery. The potential for AI to transform healthcare outcomes is enormous. Continued research and development will unlock new possibilities for medical treatment and prevention."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "MaxSentenceTask",
+            "parameters": {
+                "sentenceCount": 20,
+                "sortBy": "Rank"
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# 7. MONITORING AND POLLING EXAMPLES
+# ============================================================================
+
+### 7.1 Check Job Status (Replace {job-id} with actual job ID from previous requests)
+GET {{endpoint}}/language/analyze-text/jobs/{job-id}?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+
+### 7.2 Check Conversation Analysis Status
+GET {{endpoint}}/language/analyze-conversations/jobs/{job-id}?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+
+# ============================================================================
+# 8. POWERSHELL EXAMPLES
+# ============================================================================
+
+### 8.1 PowerShell - Extractive Summarization
+# Run this in PowerShell
+<#
+$endpoint = "YOUR_ENDPOINT_HERE"
+$apiKey = "YOUR_API_KEY_HERE"
+$apiVersion = "2023-04-01"
+
+$headers = @{
+    "Ocp-Apim-Subscription-Key" = $apiKey
+    "Content-Type" = "application/json"
+}
+
+$body = @{
+    displayName = "PowerShellExtractiveTest"
+    analysisInput = @{
+        documents = @(
+            @{
+                id = "1"
+                language = "en"
+                text = "The future of transportation is electric. Electric vehicles are becoming more affordable and accessible, with improved battery technology extending driving ranges. Governments worldwide are implementing policies to encourage EV adoption, including tax incentives and charging infrastructure development. Major automakers are committing to electric-only lineups within the next decade."
+            }
+        )
+    }
+    tasks = @(
+        @{
+            kind = "ExtractiveSummarization"
+            taskName = "PowerShellTask"
+            parameters = @{
+                sentenceCount = 2
+                sortBy = "Rank"
+            }
+        }
+    )
+} | ConvertTo-Json -Depth 5
+
+$response = Invoke-RestMethod -Uri "$endpoint/language/analyze-text/jobs?api-version=$apiVersion" -Method POST -Headers $headers -Body $body
+
+Write-Output "Job ID: $($response.jobId)"
+Write-Output "Status: $($response.status)"
+
+# Poll for results
+do {
+    Start-Sleep -Seconds 5
+    $status = Invoke-RestMethod -Uri "$endpoint/language/analyze-text/jobs/$($response.jobId)?api-version=$apiVersion" -Method GET -Headers $headers
+    Write-Output "Current status: $($status.status)"
+} while ($status.status -eq "running")
+
+# Display results
+if ($status.status -eq "succeeded") {
+    $results = $status.tasks.items[0].results.documents[0].sentences
+    Write-Output "Summary sentences:"
+    foreach ($sentence in $results) {
+        Write-Output "- $($sentence.text) (Score: $($sentence.rankScore))"
+    }
+}
+#>
+
+# ============================================================================
+# 9. CURL EXAMPLES
+# ============================================================================
+
+### 9.1 cURL - Abstractive Summarization
+# Run this in terminal/command prompt
+<#
+curl -X POST "{{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}" \
+  -H "Ocp-Apim-Subscription-Key: {{api_key}}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "displayName": "cURLAbstractiveTest",
+    "analysisInput": {
+      "documents": [
+        {
+          "id": "1",
+          "language": "en",
+          "text": "Space exploration has entered a new era with private companies joining government agencies in the quest to explore the cosmos. SpaceX has revolutionized space travel with reusable rockets, significantly reducing launch costs. NASA's Artemis program aims to return humans to the Moon and establish a sustainable lunar presence. Mars exploration continues with robotic missions providing valuable data about the Red Planet's geology and potential for past or present life. The James Webb Space Telescope is revealing unprecedented details about distant galaxies and exoplanets. Commercial space tourism is becoming a reality, with several companies offering suborbital flights to paying customers."
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "kind": "AbstractiveSummarization",
+        "taskName": "cURLTask",
+        "parameters": {
+          "sentenceCount": 2
+        }
+      }
+    ]
+  }'
+#>
+
+### 9.2 cURL - Conversation Summarization
+# Run this in terminal/command prompt
+<#
+curl -X POST "{{endpoint}}/language/analyze-conversations/jobs?api-version={{api_version}}" \
+  -H "Ocp-Apim-Subscription-Key: {{api_key}}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "displayName": "cURLConversationTest",
+    "analysisInput": {
+      "conversations": [
+        {
+          "conversationItems": [
+            {
+              "text": "I need help with my password reset.",
+              "id": "1",
+              "role": "Customer",
+              "participantId": "Customer_1"
+            },
+            {
+              "text": "I can help you with that. What is your username?",
+              "id": "2",
+              "role": "Agent",
+              "participantId": "Agent_1"
+            },
+            {
+              "text": "My username is john.doe@email.com",
+              "id": "3",
+              "role": "Customer",
+              "participantId": "Customer_1"
+            },
+            {
+              "text": "I have sent a password reset link to your email. Please check your inbox and follow the instructions.",
+              "id": "4",
+              "role": "Agent",
+              "participantId": "Agent_1"
+            },
+            {
+              "text": "Perfect, I received it. Thank you for your help!",
+              "id": "5",
+              "role": "Customer",
+              "participantId": "Customer_1"
+            }
+          ],
+          "modality": "text",
+          "id": "conversation1",
+          "language": "en"
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "taskName": "cURLConversationSummary",
+        "kind": "ConversationalSummarizationTask",
+        "parameters": {
+          "summaryAspects": ["issue", "resolution"]
+        }
+      }
+    ]
+  }'
+#>
+
+# ============================================================================
+# 10. BATCH PROCESSING EXAMPLES
+# ============================================================================
+
+### 10.1 Large Scale Document Processing
+POST {{endpoint}}/language/analyze-text/jobs?api-version={{api_version}}
+{{subscription_key}}: {{api_key}}
+Content-Type: {{content_type}}
+
+{
+    "displayName": "LargeScaleBatchProcessing",
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "doc1",
+                "language": "en",
+                "text": "The global economy is experiencing unprecedented challenges due to supply chain disruptions, inflation, and geopolitical tensions. Central banks worldwide are implementing monetary policies to combat rising prices while trying to maintain economic growth. The technology sector continues to drive innovation despite market volatility, with artificial intelligence and cloud computing leading the transformation."
+            },
+            {
+                "id": "doc2",
+                "language": "en",
+                "text": "Sustainable development has become a priority for governments and corporations worldwide. Environmental, social, and governance (ESG) criteria are increasingly important in investment decisions. Renewable energy projects are receiving record investments, while carbon capture and storage technologies are gaining traction as solutions to climate change."
+            },
+            {
+                "id": "doc3",
+                "language": "en",
+                "text": "The healthcare industry is undergoing digital transformation with the adoption of electronic health records, telemedicine, and AI-powered diagnostic tools. Personalized medicine is becoming more accessible through advances in genomics and biotechnology. Public health initiatives are focusing on preventive care and population health management."
+            },
+            {
+                "id": "doc4",
+                "language": "en",
+                "text": "Education technology has revolutionized learning through online platforms, virtual reality, and adaptive learning systems. The COVID-19 pandemic accelerated the adoption of remote learning, highlighting both opportunities and challenges in digital education. Lifelong learning and skill development are becoming essential in the rapidly changing job market."
+            },
+            {
+                "id": "doc5",
+                "language": "en",
+                "text": "Cybersecurity threats are evolving with the increasing digitization of business operations. Organizations are investing in advanced security measures including zero-trust architectures, AI-powered threat detection, and employee training programs. Data privacy regulations are becoming more stringent worldwide, requiring companies to implement robust data protection measures."
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "ExtractiveSummarization",
+            "taskName": "BatchExtractive",
+            "parameters": {
+                "sentenceCount": 2,
+                "sortBy": "Rank"
+            }
+        },
+        {
+            "kind": "AbstractiveSummarization",
+            "taskName": "BatchAbstractive",
+            "parameters": {
+                "sentenceCount": 1
+            }
+        }
+    ]
+}
+
+# ============================================================================
+# NOTES AND BEST PRACTICES
+# ============================================================================
+
+# 1. Always replace {{endpoint}} and {{api_key}} with your actual values
+# 2. Monitor job status by polling the job ID endpoint
+# 3. Handle rate limiting with exponential backoff
+# 4. Implement proper error handling for production use
+# 5. Consider text length limitations (maximum 125,000 characters per document)
+# 6. Use appropriate sentence counts based on your use case
+# 7. Test with different sortBy options (Rank vs Offset) for extractive summarization
+# 8. For conversation summarization, ensure proper role assignment
+# 9. Use batch processing for multiple documents to improve efficiency
+# 10. Consider caching results for frequently accessed summaries 

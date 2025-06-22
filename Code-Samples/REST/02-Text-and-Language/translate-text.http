@@ -1,0 +1,558 @@
+###
+# Azure AI Translator - Text Translation REST API Examples
+# 
+# This file contains comprehensive examples of using Azure AI Translator service
+# to translate text, detect languages, and handle various scenarios.
+#
+# Prerequisites:
+# 1. Azure subscription with Translator resource
+# 2. Set the following variables in your environment or replace directly:
+#    - {{TRANSLATOR_KEY}}: Your Translator resource key
+#    - {{TRANSLATOR_ENDPOINT}}: Your Translator resource endpoint
+#    - {{TRANSLATOR_REGION}}: Your Translator resource region
+#
+# Usage:
+# - VS Code with REST Client extension
+# - Replace variables with actual values
+# - Click "Send Request" above each request
+
+### Variables (replace with your actual values)
+@translatorKey = {{TRANSLATOR_KEY}}
+@translatorEndpoint = {{TRANSLATOR_ENDPOINT}}
+@translatorRegion = {{TRANSLATOR_REGION}}
+
+###
+# 1. Basic Text Translation - Single Language
+# Translate "Hello, how are you?" to Spanish
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Hello, how are you?"
+    }
+]
+
+###
+# 2. Multi-Language Translation
+# Translate to multiple languages at once
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&to=fr&to=de&to=it
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Welcome to our amazing product!"
+    }
+]
+
+###
+# 3. Multiple Texts Translation
+# Translate multiple texts in a single request
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&to=fr
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Good morning!"
+    },
+    {
+        "text": "Thank you for your help."
+    },
+    {
+        "text": "See you later!"
+    }
+]
+
+###
+# 4. Language Detection
+# Detect the language of input text
+POST {{translatorEndpoint}}/detect?api-version=3.0
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Bonjour, comment allez-vous?"
+    },
+    {
+        "text": "Hola, ¿cómo estás?"
+    },
+    {
+        "text": "こんにちは、元気ですか？"
+    }
+]
+
+###
+# 5. Translation with Source Language Specified
+# Specify source language explicitly
+POST {{translatorEndpoint}}/translate?api-version=3.0&from=en&to=es&to=pt
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "I love learning new languages!"
+    }
+]
+
+###
+# 6. HTML Content Translation
+# Translate HTML content while preserving markup
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&textType=html
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "<h1>Welcome to our website!</h1><p>We offer <strong>amazing products</strong> at great prices.</p><p>Contact us at <a href='mailto:info@example.com'>info@example.com</a></p>"
+    }
+]
+
+###
+# 7. Translation with Alignment Information
+# Include word alignment information in the response
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&includeAlignment=true
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "The quick brown fox jumps over the lazy dog."
+    }
+]
+
+###
+# 8. Translation with Sentence Length Information
+# Include sentence length information in the response
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=fr&includeSentenceLength=true
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "This is the first sentence. This is the second sentence. And this is the third sentence."
+    }
+]
+
+###
+# 9. Business Scenario - Customer Support
+# Translate customer support messages
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&to=fr&to=de
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "I'm having trouble with my order. Can you help me track it?"
+    },
+    {
+        "text": "Thank you for contacting our support team. We'll help you resolve this issue."
+    }
+]
+
+###
+# 10. Business Scenario - Product Descriptions
+# Translate product descriptions for e-commerce
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=ja&to=ko&to=zh
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Premium wireless headphones with noise cancellation and 30-hour battery life."
+    },
+    {
+        "text": "Available in black, white, and silver. Free shipping worldwide."
+    }
+]
+
+###
+# 11. Business Scenario - Legal and Compliance
+# Translate legal disclaimers and terms
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=pt&to=it&to=nl
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "By using this service, you agree to our terms and conditions."
+    },
+    {
+        "text": "Your privacy is important to us. Please review our privacy policy."
+    }
+]
+
+###
+# 12. Profanity Filtering - Mark Profanity
+# Mark profanity in translations
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&profanityAction=Marked
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "This is a clean message without any inappropriate content."
+    }
+]
+
+###
+# 13. Profanity Filtering - Delete Profanity
+# Remove profanity from translations
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=fr&profanityAction=Deleted
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "This is another clean message for testing purposes."
+    }
+]
+
+###
+# 14. Get Supported Languages - Translation
+# Get list of languages supported for translation
+GET {{translatorEndpoint}}/languages?api-version=3.0&scope=translation
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+
+###
+# 15. Get Supported Languages - All Scopes
+# Get languages for translation, transliteration, and dictionary
+GET {{translatorEndpoint}}/languages?api-version=3.0&scope=translation,transliteration,dictionary
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+
+###
+# 16. Long Text Translation
+# Handle longer text content (up to 50,000 characters)
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Artificial Intelligence (AI) has revolutionized numerous industries and aspects of our daily lives. From healthcare and finance to transportation and entertainment, AI technologies are transforming how we work, communicate, and solve complex problems. Machine learning algorithms can now process vast amounts of data to identify patterns, make predictions, and automate decision-making processes that were once exclusively human domains. Natural language processing enables computers to understand and generate human language, while computer vision allows machines to interpret and analyze visual information. The integration of AI into cloud computing platforms has made these powerful technologies more accessible to businesses of all sizes, democratizing innovation and enabling new possibilities for growth and efficiency."
+    }
+]
+
+###
+# 17. Mixed Language Content Detection
+# Detect languages in mixed-language content
+POST {{translatorEndpoint}}/detect?api-version=3.0
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Hello, bonjour, hola, guten tag!"
+    },
+    {
+        "text": "مرحبا، مرحبا بكم"
+    },
+    {
+        "text": "Здравствуйте, как дела?"
+    }
+]
+
+###
+# 18. Technical Documentation Translation
+# Translate technical content
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=de&to=ja
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Configure the API endpoint by setting the base URL and authentication headers."
+    },
+    {
+        "text": "The system will automatically retry failed requests with exponential backoff."
+    }
+]
+
+###
+# 19. Marketing Content Translation
+# Translate marketing and promotional content
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&to=pt&to=it
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Limited time offer! Get 50% off your first purchase. Don't miss out!"
+    },
+    {
+        "text": "Join thousands of satisfied customers who trust our products."
+    }
+]
+
+###
+# 20. Error Handling - Invalid Language Code
+# Test error handling with invalid language code
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=invalid_lang
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "This should return an error for invalid language code."
+    }
+]
+
+###
+# 21. Error Handling - Empty Text
+# Test with empty text
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": ""
+    }
+]
+
+###
+# 22. Transliteration Example
+# Convert text from one script to another (e.g., Arabic to Latin)
+POST {{translatorEndpoint}}/transliterate?api-version=3.0&language=ar&fromScript=Arab&toScript=Latn
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "مرحبا"
+    }
+]
+
+###
+# 23. Complex HTML Translation
+# Translate complex HTML with nested elements
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=fr&textType=html
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "<div class='container'><h2>Product Features</h2><ul><li>High-quality materials</li><li>Durable construction</li><li>Lifetime warranty</li></ul><p>Order now and get <span class='highlight'>free shipping</span>!</p></div>"
+    }
+]
+
+###
+# 24. Batch Translation for Localization
+# Large batch translation for app localization
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&to=fr&to=de&to=it&to=pt
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Home"
+    },
+    {
+        "text": "About"
+    },
+    {
+        "text": "Services"
+    },
+    {
+        "text": "Contact"
+    },
+    {
+        "text": "Login"
+    },
+    {
+        "text": "Sign Up"
+    },
+    {
+        "text": "Settings"
+    },
+    {
+        "text": "Help"
+    }
+]
+
+###
+# 25. PowerShell Example
+# Example of calling the API using PowerShell
+<#
+# PowerShell script to translate text using Azure AI Translator
+
+$translatorKey = "YOUR_TRANSLATOR_KEY"
+$translatorEndpoint = "YOUR_TRANSLATOR_ENDPOINT"
+$translatorRegion = "YOUR_TRANSLATOR_REGION"
+
+$headers = @{
+    'Ocp-Apim-Subscription-Key' = $translatorKey
+    'Ocp-Apim-Subscription-Region' = $translatorRegion
+    'Content-Type' = 'application/json'
+    'X-ClientTraceId' = [System.Guid]::NewGuid().ToString()
+}
+
+$body = @(
+    @{
+        text = "Hello, how are you today?"
+    }
+) | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri "$translatorEndpoint/translate?api-version=3.0&to=es&to=fr" -Method Post -Headers $headers -Body $body
+
+Write-Output $response | ConvertTo-Json -Depth 10
+#>
+
+###
+# 26. cURL Example
+# Example of calling the API using cURL
+<#
+curl -X POST "YOUR_TRANSLATOR_ENDPOINT/translate?api-version=3.0&to=es&to=fr" \
+     -H "Ocp-Apim-Subscription-Key: YOUR_TRANSLATOR_KEY" \
+     -H "Ocp-Apim-Subscription-Region: YOUR_TRANSLATOR_REGION" \
+     -H "Content-Type: application/json" \
+     -H "X-ClientTraceId: $(uuidgen)" \
+     -d '[{"text": "Hello, how are you today?"}]'
+#>
+
+###
+# 27. Rate Limiting Test
+# Test rate limiting behavior (send multiple requests quickly)
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Rate limiting test - request 1"
+    }
+]
+
+###
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Rate limiting test - request 2"
+    }
+]
+
+###
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Rate limiting test - request 3"
+    }
+]
+
+###
+# 28. Performance Test - Large Batch
+# Test performance with larger batch of translations
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&to=fr&to=de
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    { "text": "Welcome to our platform" },
+    { "text": "Create your account" },
+    { "text": "Choose your preferences" },
+    { "text": "Customize your experience" },
+    { "text": "Explore our features" },
+    { "text": "Connect with others" },
+    { "text": "Share your content" },
+    { "text": "Discover new opportunities" },
+    { "text": "Track your progress" },
+    { "text": "Achieve your goals" }
+]
+
+###
+# 29. Content Moderation Translation
+# Translate content that might need moderation
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=es&profanityAction=Marked
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "This content has been reviewed and approved for translation."
+    }
+]
+
+###
+# 30. Multi-Modal Content Translation
+# Translate content that includes references to images, videos, etc.
+POST {{translatorEndpoint}}/translate?api-version=3.0&to=ja&to=ko
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{translatorKey}}
+Ocp-Apim-Subscription-Region: {{translatorRegion}}
+X-ClientTraceId: {{$guid}}
+
+[
+    {
+        "text": "Click the image below to watch our product demonstration video."
+    },
+    {
+        "text": "Download the PDF guide for detailed instructions."
+    }
+] 
