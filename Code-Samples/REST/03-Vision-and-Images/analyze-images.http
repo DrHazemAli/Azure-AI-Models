@@ -1,0 +1,276 @@
+### Azure Computer Vision - Image Analysis
+### =====================================
+### 
+### This file contains REST API examples for analyzing images using Azure Computer Vision service.
+### It includes image tagging, content moderation, and image categorization.
+### 
+### Prerequisites:
+### - Azure Computer Vision service
+### - REST client (VS Code REST Client extension, Postman, etc.)
+### - Required headers: Ocp-Apim-Subscription-Key
+### 
+### Author: Azure AI Models Course
+### Repository: https://github.com/DrHazemAli/Azure-AI-Models
+
+### Configuration Variables
+@computerVisionEndpoint = https://your-resource-name.cognitiveservices.azure.com
+@subscriptionKey = your-subscription-key-here
+
+### Example 1: Analyze Image from URL
+### This example analyzes an image from a public URL
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Categories,Description,Faces,ImageType,Color,Adult&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 2: Analyze Image from URL with Custom Features
+### This example shows how to specify only certain visual features
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Description&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/faces.jpg"
+}
+
+### Example 3: Analyze Image from Binary Data
+### This example shows how to analyze an image from binary data
+### Note: You would need to replace the base64 data with actual image data
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Categories,Description,Faces,ImageType,Color,Adult&language=en&model-version=latest
+Content-Type: application/octet-stream
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+< ./sample_image.jpg
+
+### Example 4: Get Image Description Only
+### This example focuses only on getting a description of the image
+POST {{computerVisionEndpoint}}/vision/v3.2/describe?language=en&model-version=latest&maxCandidates=3
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 5: Get Image Tags Only
+### This example focuses only on getting tags for the image
+POST {{computerVisionEndpoint}}/vision/v3.2/tag?language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 6: Detect Objects in Image
+### This example detects objects and provides bounding boxes
+POST {{computerVisionEndpoint}}/vision/v3.2/detect?model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 7: Analyze Image with Domain-Specific Models
+### This example uses domain-specific models for celebrities and landmarks
+POST {{computerVisionEndpoint}}/vision/v3.2/models/celebrities/analyze?model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 8: Analyze Image with Landmarks Model
+POST {{computerVisionEndpoint}}/vision/v3.2/models/landmarks/analyze?model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 9: Get Thumbnail
+### This example generates a thumbnail of the image
+POST {{computerVisionEndpoint}}/vision/v3.2/generateThumbnail?width=100&height=100&smartCropping=true
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 10: Get Area of Interest
+### This example finds the area of interest in the image
+POST {{computerVisionEndpoint}}/vision/v3.2/areaOfInterest?model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 11: Batch Analysis - Multiple Images
+### This example shows how to analyze multiple images in sequence
+### (Note: Azure Computer Vision doesn't support true batch processing in a single request)
+
+### Image 1
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Description&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Image 2
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Description&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/faces.jpg"
+}
+
+### Example 12: Error Handling - Invalid URL
+### This example shows what happens with an invalid image URL
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://invalid-url-that-does-not-exist.com/image.jpg"
+}
+
+### Example 13: Error Handling - Invalid API Key
+### This example shows what happens with an invalid API key
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: invalid-key-here
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 14: Analyze Image with Custom Language
+### This example analyzes an image with a specific language preference
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Categories,Description&language=es&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Example 15: Get Image Analysis with Confidence Threshold
+### This example shows how to filter results by confidence
+### (Note: The API doesn't directly support confidence thresholds, but you can filter in your application)
+
+POST {{computerVisionEndpoint}}/vision/v3.2/analyze?visualFeatures=Tags,Categories,Description,Faces,ImageType,Color,Adult&language=en&model-version=latest
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/landmark.jpg"
+}
+
+### Response Examples and Documentation
+### ===================================
+### 
+### Successful Response Structure:
+### {
+###   "categories": [
+###     {
+###       "name": "outdoor_",
+###       "score": 0.99609375,
+###       "detail": {
+###         "landmarks": [
+###           {
+###             "name": "Eiffel Tower",
+###             "confidence": 0.9999998807907104
+###           }
+###         ]
+###       }
+###     }
+###   ],
+###   "adult": {
+###     "isAdultContent": false,
+###     "isRacyContent": false,
+###     "isGoryContent": false,
+###     "adultScore": 0.0,
+###     "racyScore": 0.0,
+###     "goreScore": 0.0
+###   },
+###   "tags": [
+###     {
+###       "name": "outdoor",
+###       "confidence": 0.9999998807907104
+###     },
+###     {
+###       "name": "building",
+###       "confidence": 0.9999998807907104
+###     }
+###   ],
+###   "description": {
+###     "tags": ["outdoor", "building", "tower"],
+###     "captions": [
+###       {
+###         "text": "a tall tower in the distance",
+###         "confidence": 0.9999998807907104
+###       }
+###     ]
+###   },
+###   "faces": [],
+###   "imageType": {
+###     "clipArtType": 0,
+###     "lineDrawingType": 0
+###   },
+###   "color": {
+###     "dominantColorForeground": "Grey",
+###     "dominantColorBackground": "Grey",
+###     "dominantColors": ["Grey"],
+###     "accentColor": "8B8B8B",
+###     "isBwImg": false
+###   },
+###   "requestId": "12345678-1234-1234-1234-123456789012",
+###   "metadata": {
+###     "height": 600,
+###     "width": 800,
+###     "format": "Jpeg"
+###   }
+### }
+### 
+### Error Response Structure:
+### {
+###   "error": {
+###     "code": "InvalidImageUrl",
+###     "message": "The image URL is invalid or inaccessible.",
+###     "requestId": "12345678-1234-1234-1234-123456789012"
+###   }
+### }
+### 
+### Common Error Codes:
+### - InvalidImageUrl: The image URL is invalid or inaccessible
+### - InvalidImageFormat: The image format is not supported
+### - ImageTooLarge: The image file is too large (max 4MB)
+### - InvalidRequest: The request is malformed
+### - Unauthorized: Invalid or missing API key
+### - RateLimitExceeded: Too many requests
+### 
+### Rate Limits:
+### - Free tier: 20 calls per minute, 5,000 calls per month
+### - Standard tier: 10 calls per second, 10,000 calls per month
+### - Enterprise tier: Custom limits based on agreement
+### 
+### Best Practices:
+### 1. Always handle errors gracefully
+### 2. Implement retry logic with exponential backoff
+### 3. Cache results when possible
+### 4. Use appropriate visual features for your use case
+### 5. Monitor API usage and costs
+### 6. Use HTTPS for all requests
+### 7. Keep API keys secure and rotate them regularly 
